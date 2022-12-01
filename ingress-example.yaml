@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  namespace: # Votre Namespace
+  labels:
+    app.kubernetes.io/component: controller
+  name: # Votre nom
+  annotations:
+    ingressclass.kubernetes.io/is-default-class: "true"
+spec:
+  controller: k8s.io/ingress-nginx
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: # Votre nom
+  namespace: # Votre namespace
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
+spec:
+  ingressClassName: # Votre ingress class du dessus
+  tls:
+    - hosts:
+        - # Votre hostname
+      secretName: # Le nom de votre secret contenant le certificat ssl
+  rules:
+    - host: # Votre hostname
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: # Le nom de votre service
+                port:
+                  number: # Le port exposé par votre service
