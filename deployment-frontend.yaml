@@ -1,2 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
+metadata:
+  namespace: 4al2-groupe-2
+  name: deployment-frontend
+  labels:
+    app: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: python:3.10.8-alpine3.16

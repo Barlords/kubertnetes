@@ -1,17 +1,23 @@
 apiVersion: apps/v1
-kind: Deployment*
+kind: Deployment
 metadata:
   namespace: 4al2-groupe-2
   name: demo-deployment
   labels:
     app: demo
 spec:
-  replicas
+  replicas: 1
   selector:
     matchLabels:
       app: demo
   template:
+    metadata:
+      labels:
+        app: demo
     spec:
       containers:
         - name: demo-containers
           image: nginx:1.23-alpine
+          env:
+            - name: TEST
+              value: salut
