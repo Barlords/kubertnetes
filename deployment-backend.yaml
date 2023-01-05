@@ -6,7 +6,7 @@ metadata:
   labels:
     app: backend
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: backend
@@ -17,4 +17,29 @@ spec:
     spec:
       containers:
         - name: backend
-          image: python:3.10.8-alpine3.16
+          image: barlords/backend:latest
+          env:
+            - name: DATABASE_HOST
+              value: database-service
+            - name: DATABASE_NAME
+              value: local_database
+            - name: DATABASE_PORT
+              value: 5432
+            - name: DATABASE_USER
+              value: local_user
+            - name: DATABASE_PASSWORD
+              value: local_password
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000

@@ -6,7 +6,7 @@ metadata:
   labels:
     app: frontend
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: frontend
@@ -17,4 +17,18 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: python:3.10.8-alpine3.16
+          image: barlords/frontend:latest
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  selector:
+    app: frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

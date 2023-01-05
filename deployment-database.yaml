@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: 4al2-groupe-2
+  name: deployment-database
+  labels:
+    app: database
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: database
+  template:
+    metadata:
+      labels:
+        app: database
+    spec:
+      containers:
+        - name: database
+          image: postgres:14.5-alpine3.16
+          env:
+            - name: POSTGRES_USER
+              value: local_user
+            - name: POSTGRES_PASSWORD
+              value: local_password
+            - name: POSTGRES_DB
+              value: local_database
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: database-service
+spec:
+  selector:
+    app: database
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+
