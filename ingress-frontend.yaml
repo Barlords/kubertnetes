@@ -4,7 +4,7 @@ metadata:
   namespace: 4al2-groupe-2
   labels:
     app.kubernetes.io/component: controller
-  name: ingress-class-backend
+  name: ingress-class-frontend
   annotations:
     ingressclass.kubernetes.io/is-default-class: "true"
 spec:
@@ -15,25 +15,25 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-backend
+  name: ingress-frontend
   namespace: 4al2-groupe-2
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     cert-manager.io/cluster-issuer: "letsencrypt-staging"
 spec:
-  ingressClassName: ingress-class-backend
+  ingressClassName: ingress-class-frontend
   tls:
     - hosts:
-        - backend.4al2.groupe2.jbienvenu.fr
-      secretName: backend-certificate
+        - frontend.4al2.groupe2.jbienvenu.fr
+      secretName: frontend-certificate
   rules:
-    - host: backend.4al2.groupe2.jbienvenu.fr
+    - host: frontend.4al2.groupe2.jbienvenu.fr
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: backend-service
+                name: frontend-service
                 port:
-                  number: 8000
+                  number: 80
